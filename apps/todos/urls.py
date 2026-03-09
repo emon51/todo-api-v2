@@ -1,4 +1,8 @@
 from django.urls import path
+from .views import TodoListCreateView
 
 app_name = "todos"
-urlpatterns: list = []
+
+urlpatterns = [
+    path("", TodoListCreateView.as_view(), name="todo-list-create"),
+]
