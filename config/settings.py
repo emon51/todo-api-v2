@@ -17,6 +17,7 @@ DJANGO_APPS = [
 ]
 THIRD_PARTY_APPS = [
     "rest_framework",
+    "django_filters",
 ]
 LOCAL_APPS = [
     "apps.users",
@@ -45,19 +46,6 @@ DATABASES = {
 
 AUTH_USER_MODEL = "users.User"
 
-REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ],
-    "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticated",
-    ],
-    "DEFAULT_RENDERER_CLASSES": [
-        "rest_framework.renderers.JSONRenderer",
-    ],
-    "EXCEPTION_HANDLER": "config.exceptions.custom_exception_handler",
-}
-
 
 TIME_ZONE = "UTC"
 USE_TZ = True
@@ -78,3 +66,5 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "config.pagination.CustomPageNumberPagination",
     "PAGE_SIZE": 10,
 }
+
+
