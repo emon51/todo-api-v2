@@ -1,6 +1,8 @@
 import pytest
 from rest_framework.test import APIClient
 
+TEST_PASS = "secret123"
+
 
 @pytest.fixture
 def api_client():
@@ -16,10 +18,10 @@ def auth_client(api_client, user):
 @pytest.fixture
 def user(db):
     from django.contrib.auth import get_user_model
-    User = get_user_model()
-    return User.objects.create_user(
+    user_model = get_user_model()
+    return user_model.objects.create_user(
         email="test@example.com",
-        password="secret123",
+        password=TEST_PASS,
         name="Test User",
     )
 
@@ -27,10 +29,10 @@ def user(db):
 @pytest.fixture
 def another_user(db):
     from django.contrib.auth import get_user_model
-    User = get_user_model()
-    return User.objects.create_user(
+    user_model = get_user_model()
+    return user_model.objects.create_user(
         email="another@example.com",
-        password="secret123",
+        password=TEST_PASS,
         name="Another User",
     )
 
