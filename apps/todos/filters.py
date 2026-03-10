@@ -2,15 +2,15 @@ from django_filters import rest_framework as filters
 from .models import Todo
 
 VALID_SORT_FIELDS = {"created_at", "title"}
-VALID_ORDER_VALUES = {"asc", "desc"}
 
 
 class TodoFilter(filters.FilterSet):
     status = filters.CharFilter(method="filter_by_status")
+    search = filters.CharFilter(method="filter_by_search")
 
     class Meta:
         model = Todo
-        fields = ["status"]
+        fields = ["status", "search"]
 
     def filter_by_status(self, queryset, name, value):
         if value.lower() == "completed":
@@ -18,6 +18,9 @@ class TodoFilter(filters.FilterSet):
         if value.lower() == "pending":
             return queryset.filter(is_completed=False)
         return queryset.none() # invalid status -> empty results
+
+    def filter_by_search(self, queryset, name, value):
+        return queryset.filter(title__icontains=value)
 
 
 class TodoOrdering:
