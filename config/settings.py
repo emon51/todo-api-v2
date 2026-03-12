@@ -101,6 +101,7 @@ SIMPLE_JWT = {
 
 STATIC_URL = "/static/"
 
-TIME_ZONE = "Asia/Dhaka"
+
+TIME_ZONE = "UTC"
 USE_TZ = True
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
