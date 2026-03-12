@@ -1,28 +1,29 @@
+import os
 from pathlib import Path
-import environ
 from datetime import timedelta
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-env = environ.Env(DEBUG=(bool, True))
-environ.Env.read_env(BASE_DIR / ".env")
-
 
 def read_secret(name: str, default: str = "") -> str:
-    """Read a Docker secret from /run/secrets/ or fall back to env variable."""
+    """Read a Docker secret from /run/secrets/ or fall back to environment variable."""
     secret_path = Path(f"/run/secrets/{name}")
     if secret_path.exists():
         return secret_path.read_text().strip()
-    return env(name.upper(), default=default)
+    return os.environ.get(name.upper(), default)
 
 
-DEBUG = env("DEBUG", default=True)
+DEBUG = os.environ.get("DEBUG", "True") == "True"
 SECRET_KEY = read_secret("secret_key", default="dev-secret-key")
-ALLOWED_HOSTS = ["*"] # Restrict in production
+ALLOWED_HOSTS = ["*"]  # Restrict in production
 
 DJANGO_APPS = [
+    "django.contrib.admin",
     "django.contrib.contenttypes",
     "django.contrib.auth",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
 ]
 THIRD_PARTY_APPS = [
     "rest_framework",
@@ -36,7 +37,25 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+]
+
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+            ],
+        },
+    },
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -45,11 +64,11 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": read_secret("db_name", default="todo_db"),
-        "USER": read_secret("db_user", default="todo_user"),
-        "PASSWORD": read_secret("db_password", default="todo_password"),
-        "HOST": env("POSTGRES_HOST", default="localhost"),
-        "PORT": env("POSTGRES_PORT", default="5432"),
+        "NAME": read_secret("db_name"),
+        "USER": read_secret("db_user"),
+        "PASSWORD": read_secret("db_password"),
+        "HOST": os.environ.get("POSTGRES_HOST", "localhost"),
+        "PORT": os.environ.get("POSTGRES_PORT", "5432"),
     }
 }
 
@@ -80,6 +99,8 @@ SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
 
-TIME_ZONE = "UTC"
+STATIC_URL = "/static/"
+
+TIME_ZONE = "Asia/Dhaka"
 USE_TZ = True
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
