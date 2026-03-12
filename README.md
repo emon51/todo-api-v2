@@ -21,19 +21,23 @@ A REST API for managing todos built with Django and PostgreSQL, running fully in
 ---
 
 ## Quick Start
+### 1. Clone the repository:
 ```bash
-# 1. Clone the repository
-git clone 
+git clone https://github.com/emon51/todo-api-drf.git
 cd todo_api
+```
 
-# 2. Create secrets directory and files
+### 2. Create secrets directory and files:
+```bash
 mkdir secrets
 echo "todo_db" > secrets/db_name.txt
 echo "todo_user" > secrets/db_user.txt
 echo "todo_password" > secrets/db_password.txt
 echo "your-secret-key-change-this" > secrets/secret_key.txt
+```
 
-# 3. Start the app
+### 3. Start the app:
+```bash
 docker-compose up --build
 ```
 
@@ -72,11 +76,13 @@ See [API_DOCS.md](API_DOCS.md) for full request/response examples.
 ---
 
 ## Running Tests
+### Make sure containers are running:
 ```bash
-# Make sure containers are running
 docker-compose up -d
+```
 
-# Run tests with coverage report
+### Run tests with coverage report:
+```bash
 docker-compose exec web pytest tests/ -v
 ```
 
@@ -87,39 +93,48 @@ docker-compose exec web pytest tests/ -v
 ## Project Structure
 ```
 todo_api/
+├── config/                 # Project configuration
+│   ├── settings.py         # Django settings
+│   ├── urls.py             # Root URL config
+│   ├── api_router.py       # API v1 router
+│   ├── exceptions.py       # Global error handler
+│   └── pagination.py       # Custom pagination
 ├── apps/
-│   ├── todos/          # Todo CRUD logic
-│   └── users/          # Registration & login
-├── config/             # Django settings, URLs, pagination
-├── tests/              # All tests
-├── secrets/            # Credentials — never committed to git
+│   ├── users/              # Auth app (register, login)
+│   └── todos/              # Todos app (CRUD, filter, search)
+├── tests/                  # All tests
+├── manage.py
+├── secrets/                # Sensitive credentials
 ├── docker-compose.yml
 ├── Dockerfile
-├── requirements.txt
-└── API_DOCS.md
+├── requirements.txt        # Project Dependencies
+├── API_DOCS.md
+├── README.md
+└── pytest.ini
 ```
 
 ---
 
 ## Useful Commands
+### Start in background:
 ```bash
-# Start in background
 docker-compose up -d
+```
 
-# Stop containers
+### Stop containers:
+```bash
 docker-compose down
+```
 
-# Stop and delete all data
+### Stop and delete all data:
+```bash
 docker-compose down -v
-
-# View logs
-docker-compose logs -f web
 ```
 
 ---
 
 ## Security Notes
 
-- `secrets/` is in `.gitignore` — never committed to git
+- `secrets/` is in `.gitignore`
 - All credentials are managed via Docker secrets
 - JWT tokens expire after 1 hour
