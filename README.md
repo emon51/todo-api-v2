@@ -4,6 +4,30 @@ A REST API for managing todos built with Django and PostgreSQL, running fully in
 
 ---
 
+## Project Structure
+```
+todo-api-drf/
+├── config/                 # Project configuration
+│   ├── settings.py         # Django settings
+│   ├── urls.py             # Root URL config
+│   ├── exceptions.py       # Global error handler
+│   └── pagination.py       # Custom pagination
+├── apps/
+│   ├── users/              # Auth app (register, login)
+│   └── todos/              # Todos app (CRUD, filter, search)
+├── tests/                  # All tests
+├── secrets/                # Credentials 
+├── docker-compose.yml
+├── Dockerfile
+├── requirements.txt
+├── pytest.ini
+├── API_DOCS.md
+└── README.md
+```
+
+
+---
+
 ## Tech Stack
 
 - Python, Django, Django REST Framework
@@ -108,32 +132,13 @@ docker-compose up -d
 docker-compose exec web pytest tests/ -v
 ```
 
-**Expected result:** 47 passed, 95% coverage
-
----
-
-## Project Structure
+## Admin Panel
+### Create a superuser:
+```bash
+docker-compose exec web python manage.py createsuperuser
 ```
-todo-api-drf/
-├── config/                 # Project configuration
-│   ├── settings.py         # Django settings
-│   ├── urls.py             # Root URL config
-│   ├── api_router.py       # API v1 router
-│   ├── exceptions.py       # Global error handler
-│   └── pagination.py       # Custom pagination
-├── apps/
-│   ├── users/              # Auth app (register, login)
-│   └── todos/              # Todos app (CRUD, filter, search)
-├── tests/                  # All tests
-├── manage.py
-├── secrets/                # Sensitive credentials
-├── docker-compose.yml
-├── Dockerfile
-├── requirements.txt        # Project Dependencies
-├── API_DOCS.md
-├── README.md
-└── pytest.ini
-```
+
+Then open `http://localhost:8000/admin/` in your browser.
 
 ---
 
