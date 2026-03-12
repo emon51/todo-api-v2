@@ -18,7 +18,7 @@ def read_secret(name: str, default: str = "") -> str:
 
 DEBUG = env("DEBUG", default=True)
 SECRET_KEY = read_secret("secret_key", default="dev-secret-key")
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["*"] # Restrict in production
 
 DJANGO_APPS = [
     "django.contrib.contenttypes",

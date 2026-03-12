@@ -17,15 +17,13 @@ class TodoFilter(filters.FilterSet):
             return queryset.filter(is_completed=True)
         if value.lower() == "pending":
             return queryset.filter(is_completed=False)
-        return queryset.none() # invalid status -> empty results
+        return queryset.none()
 
     def filter_by_search(self, queryset, name, value):
         return queryset.filter(title__icontains=value)
 
 
 class TodoOrdering:
-    # Handles sorting logic separately from filtering.
-
     @staticmethod
     def apply(queryset, sort_by: str | None, order: str | None):
         sort_field = sort_by if sort_by in VALID_SORT_FIELDS else "created_at"
