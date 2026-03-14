@@ -7,8 +7,8 @@ class UserManager(BaseUserManager):
         if not email:
             raise ValueError("Email is required.")
         email = self.normalize_email(email).lower()
-        user = self.model(email=email, **extra_fields)
-        user.set_password(password)
+        user = self.model(email=email, **extra_fields) # self.models == appps.users.models.User
+        user.set_password(password) # set hashed password
         user.save(using=self._db)
         return user
 

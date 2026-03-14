@@ -6,6 +6,7 @@ User = get_user_model()
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, min_length=8)
+
     class Meta:
         model = User
         fields = ["id", "name", "email", "password", "created_at"]
@@ -22,7 +23,7 @@ class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
 
-    def validate(self, attrs):
+    def validate(self, attrs): # each field validates individually
         email = attrs["email"].lower()
         password = attrs["password"]
 
