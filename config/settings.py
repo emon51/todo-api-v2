@@ -17,23 +17,22 @@ DEBUG = os.environ.get("DEBUG", "True") == "True"
 SECRET_KEY = read_secret("secret_key", default="dev-secret-key")
 ALLOWED_HOSTS = ["*"]  # Restrict in production
 
-DJANGO_APPS = [
+
+INSTALLED_APPS = [
+    # Django apps
     "django.contrib.admin",
     "django.contrib.contenttypes",
     "django.contrib.auth",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-]
-THIRD_PARTY_APPS = [
+    # Third party apps
     "rest_framework",
     "django_filters",
-]
-LOCAL_APPS = [
+    # Local apps
     "apps.users",
     "apps.todos",
 ]
-INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -100,7 +99,6 @@ SIMPLE_JWT = {
 }
 
 STATIC_URL = "/static/"
-
 
 TIME_ZONE = "UTC"
 USE_TZ = True
