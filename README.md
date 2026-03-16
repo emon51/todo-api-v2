@@ -47,8 +47,8 @@ todo-api-drf/
 ## Quick Start
 ### 1. Clone the repository:
 ```bash
-git clone https://github.com/emon51/todo-api-drf.git
-cd todo-api-drf
+git clone https://github.com/emon51/todo-api-v2.git
+cd todo-api-v2
 ```
 
 ### 2. Create secrets directory and files:
